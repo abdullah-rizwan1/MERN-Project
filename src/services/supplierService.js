@@ -9,7 +9,7 @@ exports.getSuppliers = async () => {
 
 exports.createSupplier = async (first_name, last_name, email, password) => {
     let createSupplierQuery = `INSERT INTO 
-        Supplier(first_name, last_name, email, password, created_at)
+        Supplier(first_name, last_name, email, password, created_at, is_active)
         VALUES(?, ?, ?, ?, NOW(), 1);`
     let supplier = await ecomDB.query(createSupplierQuery, [first_name, last_name, email, password])
     return supplier[0][0] ? resp[0][0] : null
@@ -17,7 +17,7 @@ exports.createSupplier = async (first_name, last_name, email, password) => {
 
 exports.getSupplierByEmail = async (email) => {
     let supplierByEmailQuery = `
-        SELECT email FROM Supplier
+        SELECT * FROM Supplier
         WHERE email = ?
     `
     let supplier = await ecomDB.query(supplierByEmailQuery, [email])

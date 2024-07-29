@@ -67,13 +67,12 @@ exports.login = async (req,res) => {
     try {
         let body = req.body
         let supplier = await supplierService.getSupplierByEmail(body.email)
-        
         if (!supplier) {
             return res.status(HttpCodes.BAD_REQUEST).send(new ErrorResponse(AppMessages.INVALID_USERNAME_EMAIL))
         }
 
         const isUserValid = await authHelper.isValidUser(body.password, supplier.password)
-    
+
         if (!isUserValid) {
             return res.status(HttpCodes.BAD_REQUEST).send(new ErrorResponse(AppMessages.ACCESS_DENIED))
         }
@@ -81,6 +80,6 @@ exports.login = async (req,res) => {
         res = await authHelper.addAuthTokenInResponseheader(supplier, res)
         return res.status(HttpCodes.OK).send(new SuccessResponse(AppMessages.SUCCESS))
     } catch(error) {
-        return res.send(HttpCode.INTERNAL_SERVER_ERROR).send(new ErrorResponse(AppMessages.INTERNAL_SERVER_ERROR))
+        return res.send(HttpCodes.INTERNAL_SERVER_ERROR).send(new ErrorResponse(AppMessages.INTERNAL_SERVER_ERROR))
     }
 }
