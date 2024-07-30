@@ -14,5 +14,8 @@ let BadRequest = class BadRequest{
     }
   };
   
-  module.exports = BadRequest;
+
+exports.ErrorResponse = (res, httpCode, message, payload = '') => {
+  return res.status(httpCode).send(new BadRequest(message))
+}
   

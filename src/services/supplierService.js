@@ -4,7 +4,7 @@ const ecomDB = require('../config/mysql')
 exports.getSuppliers = async () => {
     let getSupplierQuery = 'SELECT * FROM Supplier WHERE is_active = 1'
     let suppliers = await ecomDB.query(getSupplierQuery) 
-    return suppliers[0]
+    return suppliers[0] ? suppliers[0] : null
 }
 
 exports.createSupplier = async (first_name, last_name, email, password) => {
@@ -35,7 +35,6 @@ exports.getSupplierById = async (id) => {
 }
 
 exports.deleteSupplierById = async (id) => {
-    console.log(id)
     let deleteSupplierByID = `
         UPDATE Supplier
         SET is_active=0 
@@ -43,5 +42,17 @@ exports.deleteSupplierById = async (id) => {
     `
 
     let supplier = await ecomDB.query(deleteSupplierByID, [id])
+    return supplier[0] ? supplier[0] : null
+}
+
+
+exports.updateSupplierPasswordByEmail = async (email, hashedPassword) => {
+    let updataeSupplierPassword = `
+        UPDATE Supplier
+        SET password = ?
+        WHERE email = ?
+    `
+
+    let supplier = await ecomDB.query(updataeSupplierPassword, [hashedPassword, email])
     return supplier[0] ? supplier[0] : null
 }

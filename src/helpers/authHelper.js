@@ -11,7 +11,7 @@ exports.encryptString = async (str) => {
 }
 
 exports.isValidUser = async(userTypePassword, dbPassword) => {
-    let isValidPassword = bcrypt.compare(userTypePassword, dbPassword)
+    let isValidPassword = await bcrypt.compare(userTypePassword, dbPassword)
     return isValidPassword
 }   
 

@@ -1,3 +1,5 @@
+const HttpCodes = require("../constants/httpCodes");
+
 let SuccessResponse = class SuccessResponse{
 
     constructor(message,result) {
@@ -14,5 +16,10 @@ let SuccessResponse = class SuccessResponse{
       };
     }
   };
+
+
+
+exports.SuccessfullResponse = ( res, message, payload) =>  {
+  return res.status(HttpCodes.OK).send(new SuccessResponse(message,payload))
+}
   
-  module.exports = SuccessResponse;
